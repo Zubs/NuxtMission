@@ -14,8 +14,10 @@
                 <h2 class="text-2xl leading-7 font-semibold mt-4">
                 Check out other planets
                 </h2>
-                <button class="btn">Show Planets</button>
-                <Planets />
+                <button @click="showPlanets = !showPlanets" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{{ showPlanets === true ? 'Hide planets' : 'Show planets' }}</button>
+                <div v-if="showPlanets">
+                    <LazyPlanets />
+                </div>
                 <p class="mt-4 pt-4 text-gray-800 border-t border-dashed">
                     <NuxtLink to="/"><code class="bg-gray-100 text-sm p-1 rounded border">Back to Home</code></NuxtLink>
                 </p>
@@ -44,6 +46,12 @@ export default {
             ]
         }
   	},
+
+    data () {
+        return {
+            showPlanets: false
+        }
+    },
 
     async asyncData ({ params }) {
         const planet = await fetch(`https://api.nuxtjs.dev/planets/${ params.slug }`).then((res) => {
